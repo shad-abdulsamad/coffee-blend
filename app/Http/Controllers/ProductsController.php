@@ -11,6 +11,9 @@ class ProductsController extends Controller
     {
         $product = ProductModel::find($id);
 
-        return view("products.productsingle", compact("product"));
+        $relatedProducts = ProductModel::where('type', $product->type)
+            ->where('id', '!=', $id)->take('4')->orderBy('id', 'desc')->get();
+
+        return view("products.productsingle", compact("product", "relatedProducts"));
     }
 }
